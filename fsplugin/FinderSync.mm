@@ -352,14 +352,9 @@ static constexpr double kGetFileStatusInterval = 2.0; // seconds
                                                  @"Get Seafile Download Link")
                         action:@selector(shareLinkAction:)
                  keyEquivalent:@""];
-    NSMenuItem *internalLinkItem =
-        [menu addItemWithTitle:NSLocalizedString(@"Get Seafile Internal Link",
-                                                 @"Get Seafile Internal Link")
-                        action:@selector(internalLinkAction:)
-                 keyEquivalent:@""];
+
     NSImage *seafileImage = [NSImage imageNamed:@"seafile.icns"];
     [shareLinkItem setImage:seafileImage];
-    [internalLinkItem setImage:seafileImage];
 
     // add a menu item for lockFile
     NSArray *items =
@@ -404,6 +399,18 @@ static constexpr double kGetFileStatusInterval = 2.0; // seconds
 
         if (file->second == PathStatus::SYNC_STATUS_LOCKED)
             [lockFileItem setEnabled:FALSE];
+    }
+
+    auto repo = findRepoContainPath(watched_repos_, file);
+    if (repo == watched_repos_.end())
+        return;
+    if (repo.support_internal_link) {
+      NSMenuItem *internalLinkItem =
+          [menu addItemWithTitle:NSLocalizedString(@"Get Seafile Internal Link",
+                                                   @"Get Seafile Internal Link")
+                          action:@selector(internalLinkAction:)
+                   keyEquivalent:@""];
+      [internalLinkItem setImage:seafileImage];
     }
 
     NSString *showHistoryTitle;

@@ -120,6 +120,13 @@ public:
                (majorVersion << 20) + (minorVersion << 10) + (patchVersion);
     }
 
+    QString supportInternalLink() const {
+        if (isAtLeastVersion(6,3,0))
+            return "True";
+        else
+            return "False";
+    }
+
     // require pro edtions and version at least at ...
     // excluding OSS Version
     bool isAtLeastProVersion(unsigned majorVersion, unsigned minorVersion, unsigned patchVersion) const {

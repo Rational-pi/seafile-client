@@ -52,9 +52,11 @@ static std::vector<LocalRepo> *deserializeWatchSet(const char *buffer,
         while (*pos != '\0' && pos != end)
             ++pos;
         worktree_size = pos - buffer;
-        pos += 2;
+        pos += 10;
         if (pos > end || *pos != '\0')
             break;
+
+        const char *support_internal_link = pos-9;
 
         status = *(pos - 1);
         if (status >= LocalRepo::MAX_SYNC_STATE) {
@@ -63,6 +65,7 @@ static std::vector<LocalRepo> *deserializeWatchSet(const char *buffer,
 
         repos->emplace_back(std::string(repo_id, 36),
                             std::string(buffer, worktree_size),
+                            std::string(support_internal_link, 8),
                             static_cast<LocalRepo::SyncState>(status));
         buffer = ++pos;
     }

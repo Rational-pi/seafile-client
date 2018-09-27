@@ -51,6 +51,7 @@ struct LocalRepo {
         : repo_id(r), worktree(w), status(s) {}
     std::string repo_id;
     std::string worktree;
+    std::string support_internal_link;
     SyncState status;
     friend bool operator==(const LocalRepo &lhs, const LocalRepo &rhs) {
         return lhs.repo_id == rhs.repo_id;

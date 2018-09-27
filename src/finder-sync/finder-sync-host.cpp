@@ -134,6 +134,9 @@ utils::BufferArray FinderSyncHost::getWatchSet(size_t header_size,
         // copy worktree
         memcpy(pos, array[i].data(), array[i].size() + 1);
         pos += array[i].size() + 1;
+        // copy support_internal_link
+        memcpy(pos, watch_set_[i].account.supportInternalLink().toUtf8().data(), 8);
+        pos += 8;
         // copy status
         *pos++ = watch_set_[i].sync_state;
         *pos++ = '\0';
